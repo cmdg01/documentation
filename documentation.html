@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delta Beverages Hospital Management System Documentation</title>
+    <style>
+        :root {
+            --primary-color: #0f172a;
+            --secondary-color: #2563eb;
+            --accent-color: #3b82f6;
+            --background-color: #ffffff;
+            --text-color: #334155;
+            --sidebar-width: 300px;
+            --header-height: 60px;
+            --border-radius: 12px;
+            --box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: #f8fafc;
+        }
+
+        .layout-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
+            background: var(--primary-color);
+            padding: 1.5rem;
+            overflow-y: auto;
+            color: white;
+            box-shadow: var(--box-shadow);
+        }
+
+        .sidebar-header {
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.5rem;
+            color: white;
+            font-weight: 600;
+        }
+
+        .search-container {
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        .nav-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-group-title {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 0.5rem;
+            padding: 0 0.5rem;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-size: 0.9375rem;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 2rem 3rem;
+            max-width: calc(100% - var(--sidebar-width));
+        }
+
+        .section {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--box-shadow);
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .section h3 {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+        }
+
+        .section p {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .feature-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+        }
+
+        .feature-card h4 {
+            color: var(--secondary-color);
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        .info-box {
+            background: #f0f9ff;
+            border-left: 4px solid var(--accent-color);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: var(--border-radius);
+        }
+
+        .module-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .module-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .module-list li:last-child {
+            border-bottom: none;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 1000;
+            }
+
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="layout-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h1>DBHMS Documentation</h1>
+            </div>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Search documentation..." id="searchInput">
+            </div>
+            <div class="nav-list">
+                <div class="nav-group">
+                    <h2 class="nav-group-title">Core Modules</h2>
+                    <ul>
+                        <li><a href="#dashboard" class="nav-link">Dashboard</a></li>
+                        <li><a href="#patient-management" class="nav-link">Patient Management</a></li>
+                        <li><a href="#ipd" class="nav-link">IPD Management</a></li>
+                        <li><a href="#opd" class="nav-link">OPD Management</a></li>
+                        <li><a href="#billing" class="nav-link">Billing System</a></li>
+                        <li><a href="#pharmacy" class="nav-link">Pharmacy</a></li>
+                        <li><a href="#diagnostics" class="nav-link">Diagnostics</a></li>
+                        <li><a href="#blood-bank" class="nav-link">Blood Bank</a></li>
+                    <li><a href="#radiology" class="nav-link">Radiology</a></li>
+                    <li><a href="#pathology-lab" class="nav-link">Pathology Lab</a></li>
+                    <li><a href="#ambulance" class="nav-link">Ambulance Services</a></li>
+                    <li><a href="#hr-management" class="nav-link">HR Management</a></li>
+                    <li><a href="#front-office" class="nav-link">Front Office</a></li>
+                    <li><a href="#data-analytics" class="nav-link">Data Analytics</a></li>
+                    <li><a href="#upcoming-features" class="nav-link">Upcoming Features</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <section id="dashboard" class="section">
+                <h2>Dashboard</h2>
+                <p>The dashboard provides a comprehensive overview of hospital operations and key metrics in real-time.</p>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Financial Overview</h4>
+                        <p>Monitor total revenue, expenses, and financial metrics including:</p>
+                        <ul class="module-list">
+                            <li>Total invoices and payments</li>
+                            <li>Pending bills and advance payments</li>
+                            <li>Daily/monthly revenue trends</li>
+                            <li>Department-wise financial analysis</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Hospital Statistics</h4>
+                        <p>Track essential hospital metrics including:</p>
+                        <ul class="module-list">
+                            <li>Total active patients</li>
+                            <li>Bed occupancy rates</li>
+                            <li>Staff availability</li>
+                            <li>Department performance</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Administrative Controls</h4>
+                        <p>Manage system settings and configurations:</p>
+                        <ul class="module-list">
+                            <li>User role management</li>
+                            <li>Department settings</li>
+                            <li>System preferences</li>
+                            <li>Access controls</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="ipd" class="section">
+                <h2>IPD (In-Patient Department) Management</h2>
+                <p>Comprehensive management of admitted patients and their care throughout their hospital stay.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Patient Admission</h4>
+                        <ul class="module-list">
+                            <li>Bed assignment and management</li>
+                            <li>Patient registration and documentation</li>
+                            <li>Insurance verification</li>
+                            <li>Initial assessment recording</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Treatment Management</h4>
+                        <ul class="module-list">
+                            <li>Doctor assignments and rounds</li>
+                            <li>Treatment plan tracking</li>
+                            <li>Medication management</li>
+                            <li>Progress notes and observations</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Discharge Process</h4>
+                        <ul class="module-list">
+                            <li>Discharge planning</li>
+                            <li>Final billing calculation</li>
+                            <li>Documentation completion</li>
+                            <li>Follow-up scheduling</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h4>Access Control</h4>
+                    <p>IPD module is accessible to:</p>
+                    <ul class="module-list">
+                        <li>Administrators: Full access to all features</li>
+                        <li>Doctors: Patient care and treatment management</li>
+                        <li>Nurses: Patient care and monitoring</li>
+                        <li>Billing Staff: Financial aspects</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="opd" class="section">
+                <h2>OPD (Out-Patient Department) Management</h2>
+                <p>Streamlined management of outpatient services and consultations.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Patient Registration</h4>
+                        <ul class="module-list">
+                            <li>Quick registration process</li>
+                            <li>Patient history access</li>
+                            <li>Document management</li>
+                            <li>Appointment scheduling</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Consultation Management</h4>
+                        <ul class="module-list">
+                            <li>Doctor availability tracking</li>
+                            <li>Consultation queuing</li>
+                            <li>Prescription management</li>
+                            <li>Follow-up scheduling</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Billing and Payments</h4>
+                        <ul class="module-list">
+                            <li>Consultation fees</li>
+                            <li>Service charges</li>
+                            <li>Medicine billing</li>
+                            <li>Payment processing</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="pharmacy" class="section">
+                <h2>Pharmacy Management</h2>
+                <p>Complete pharmaceutical inventory and dispensing management system.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Inventory Management</h4>
+                        <ul class="module-list">
+                            <li>Stock tracking and alerts</li>
+                            <li>Batch and expiry management</li>
+                            <li>Supplier management</li>
+                            <li>Purchase order processing</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Dispensing</h4>
+                        <ul class="module-list">
+                            <li>Prescription verification</li>
+                            <li>Medicine dispensing</li>
+                            <li>Patient counseling records</li>
+                            <li>Billing integration</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Reporting</h4>
+                        <ul class="module-list">
+                            <li>Stock reports</li>
+                            <li>Sales analysis</li>
+                            <li>Expiry tracking</li>
+                            <li>Consumption patterns</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="blood-bank" class="section">
+                <h2>Blood Bank Management</h2>
+                <p>Comprehensive blood inventory and donation management system.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Donor Management</h4>
+                        <ul class="module-list">
+                            <li>Donor registration</li>
+                            <li>Medical history tracking</li>
+                            <li>Donation scheduling</li>
+                            <li>Donor recognition</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Blood Inventory</h4>
+                        <ul class="module-list">
+                            <li>Blood group tracking</li>
+                            <li>Component management</li>
+                            <li>Expiry monitoring</li>
+                            <li>Cross-matching</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Distribution</h4>
+                        <ul class="module-list">
+                            <li>Request management</li>
+                            <li>Compatibility testing</li>
+                            <li>Issue tracking</li>
+                            <li>Emergency requests</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="billing" class="section">
+                <h2>Billing System</h2>
+                <p>Comprehensive financial management and billing system for all hospital services.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Invoice Management</h4>
+                        <ul class="module-list">
+                            <li>Automated invoice generation</li>
+                            <li>Service charge calculation</li>
+                            <li>Insurance claim processing</li>
+                            <li>Payment tracking</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Payment Processing</h4>
+                        <ul class="module-list">
+                            <li>Multiple payment methods</li>
+                            <li>Installment management</li>
+                            <li>Refund processing</li>
+                            <li>Receipt generation</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Financial Reporting</h4>
+                        <ul class="module-list">
+                            <li>Revenue analytics</li>
+                            <li>Department-wise reports</li>
+                            <li>Tax calculations</li>
+                            <li>Financial statements</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h4>Key Features</h4>
+                    <p>The billing system includes:</p>
+                    <ul class="module-list">
+                        <li>Automatic price calculation based on service packages</li>
+                        <li>Integration with insurance providers</li>
+                        <li>Flexible payment plans and scheduling</li>
+                        <li>Comprehensive audit trail</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="diagnostics" class="section">
+                <h2>Diagnostics Management</h2>
+                <p>Complete laboratory and diagnostic test management system.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Test Management</h4>
+                        <ul class="module-list">
+                            <li>Test ordering and tracking</li>
+                            <li>Sample collection management</li>
+                            <li>Result recording and verification</li>
+                            <li>Critical value alerts</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Report Generation</h4>
+                        <ul class="module-list">
+                            <li>Customizable report templates</li>
+                            <li>Digital signature integration</li>
+                            <li>Batch reporting</li>
+                            <li>Historical comparison</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Quality Control</h4>
+                        <ul class="module-list">
+                            <li>Quality assurance tracking</li>
+                            <li>Equipment calibration logs</li>
+                            <li>Standard operating procedures</li>
+                            <li>Compliance monitoring</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="inventory" class="section">
+                <h2>Inventory Management</h2>
+                <p>Comprehensive system for managing hospital supplies and equipment.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Stock Management</h4>
+                        <ul class="module-list">
+                            <li>Real-time inventory tracking</li>
+                            <li>Minimum stock alerts</li>
+                            <li>Batch tracking</li>
+                            <li>Multi-location support</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Purchase Management</h4>
+                        <ul class="module-list">
+                            <li>Purchase order generation</li>
+                            <li>Vendor management</li>
+                            <li>Price negotiation tracking</li>
+                            <li>Order fulfillment monitoring</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Asset Tracking</h4>
+                        <ul class="module-list">
+                            <li>Equipment maintenance logs</li>
+                            <li>Depreciation tracking</li>
+                            <li>Warranty management</li>
+                            <li>Asset allocation</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="appointments" class="section">
+                <h2>Appointment System</h2>
+                <p>Efficient appointment scheduling and management system.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Scheduling</h4>
+                        <ul class="module-list">
+                            <li>Online booking system</li>
+                            <li>Doctor availability management</li>
+                            <li>Department-wise scheduling</li>
+                            <li>Waiting list management</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Patient Communication</h4>
+                        <ul class="module-list">
+                            <li>Automated reminders</li>
+                            <li>Rescheduling notifications</li>
+                            <li>Follow-up scheduling</li>
+                            <li>Cancellation management</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Resource Management</h4>
+                        <ul class="module-list">
+                            <li>Room allocation</li>
+                            <li>Equipment scheduling</li>
+                            <li>Staff assignment</li>
+                            <li>Time slot management</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h4>Integration Features</h4>
+                    <p>The appointment system integrates with:</p>
+                    <ul class="module-list">
+                        <li>Electronic Medical Records (EMR)</li>
+                        <li>Billing System</li>
+                        <li>Patient Portal</li>
+                        <li>SMS/Email Notification System</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="reports" class="section">
+                <h2>Reporting System</h2>
+                <p>Comprehensive reporting and analytics capabilities across all modules.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Administrative Reports</h4>
+                        <ul class="module-list">
+                            <li>Operational statistics</li>
+                            <li>Resource utilization reports</li>
+                            <li>Staff performance metrics</li>
+                            <li>Compliance reports</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Clinical Reports</h4>
+                        <ul class="module-list">
+                            <li>Patient care statistics</li>
+                            <li>Treatment outcomes</li>
+                            <li>Disease prevalence</li>
+                            <li>Drug utilization review</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Financial Reports</h4>
+                        <ul class="module-list">
+                            <li>Revenue analysis</li>
+                            <li>Cost center reports</li>
+                            <li>Insurance claims status</li>
+                            <li>Budget variance analysis</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="radiology" class="section">
+                <h2>Radiology Management</h2>
+                <p>Comprehensive radiology information system for managing imaging services and reports.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Imaging Services</h4>
+                        <ul class="module-list">
+                            <li>X-Ray management with digital imaging support</li>
+                            <li>CT scan scheduling and tracking</li>
+                            <li>MRI appointment management</li>
+                            <li>Ultrasound service coordination</li>
+                            <li>PACS integration capabilities</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Workflow Management</h4>
+                        <ul class="module-list">
+                            <li>Patient scheduling and registration</li>
+                            <li>Equipment allocation and tracking</li>
+                            <li>Technologist assignment</li>
+                            <li>Study prioritization and emergency handling</li>
+                            <li>Results distribution system</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Reporting System</h4>
+                        <ul class="module-list">
+                            <li>Structured reporting templates</li>
+                            <li>Voice recognition integration</li>
+                            <li>Critical findings alerts</li>
+                            <li>Report distribution management</li>
+                            <li>Historical comparison tools</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h4>Quality Control Features</h4>
+                    <ul class="module-list">
+                        <li>Radiation dose tracking and monitoring</li>
+                        <li>Equipment quality assurance protocols</li>
+                        <li>Image quality assessment tools</li>
+                        <li>Compliance tracking with regulatory requirements</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="pathology-lab" class="section">
+                <h2>Pathology Laboratory Management</h2>
+                <p>Advanced laboratory information system for managing all pathology operations.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Sample Management</h4>
+                        <ul class="module-list">
+                            <li>Specimen tracking with barcode support</li>
+                            <li>Sample collection scheduling</li>
+                            <li>Storage location management</li>
+                            <li>Sample rejection handling</li>
+                            <li>Transportation tracking</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Test Processing</h4>
+                        <ul class="module-list">
+                            <li>Automated analyzer integration</li>
+                            <li>Quality control monitoring</li>
+                            <li>Result validation workflows</li>
+                            <li>Reference range management</li>
+                            <li>Critical value handling</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Reporting</h4>
+                        <ul class="module-list">
+                            <li>Customizable report templates</li>
+                            <li>Auto-verification rules</li>
+                            <li>Delta check configurations</li>
+                            <li>Cumulative reporting</li>
+                            <li>Interface with EMR systems</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="ambulance" class="section">
+                <h2>Ambulance Services Management</h2>
+                <p>Complete system for managing emergency medical transportation services.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Fleet Management</h4>
+                        <ul class="module-list">
+                            <li>Vehicle tracking and status monitoring</li>
+                            <li>Maintenance scheduling</li>
+                            <li>Equipment inventory tracking</li>
+                            <li>Driver assignment and scheduling</li>
+                            <li>Route optimization</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Emergency Response</h4>
+                        <ul class="module-list">
+                            <li>Call center integration</li>
+                            <li>Real-time dispatch management</li>
+                            <li>GPS tracking and navigation</li>
+                            <li>Emergency team coordination</li>
+                            <li>Response time monitoring</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Patient Care</h4>
+                        <ul class="module-list">
+                            <li>Patient condition recording</li>
+                            <li>Treatment documentation</li>
+                            <li>Hospital notification system</li>
+                            <li>Electronic patient care records</li>
+                            <li>Handover management</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="hr-management" class="section">
+                <h2>HR Management</h2>
+                <p>Comprehensive human resource management system for healthcare staff.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Staff Management</h4>
+                        <ul class="module-list">
+                            <li>Employee database management</li>
+                            <li>Credential verification</li>
+                            <li>License tracking and renewal alerts</li>
+                            <li>Performance evaluation systems</li>
+                            <li>Training and development tracking</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Scheduling</h4>
+                        <ul class="module-list">
+                            <li>Duty roster management</li>
+                            <li>Shift planning and allocation</li>
+                            <li>Leave management</li>
+                            <li>Overtime tracking</li>
+                            <li>On-call schedule management</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Payroll</h4>
+                        <ul class="module-list">
+                            <li>Salary processing</li>
+                            <li>Tax calculations</li>
+                            <li>Benefits administration</li>
+                            <li>Attendance integration</li>
+                            <li>Compensation management</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="front-office" class="section">
+                <h2>Front Office Management</h2>
+                <p>Streamlined front desk operations and visitor management system.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Reception Management</h4>
+                        <ul class="module-list">
+                            <li>Visitor registration and tracking</li>
+                            <li>Patient inquiry handling</li>
+                            <li>Appointment scheduling support</li>
+                            <li>Direction and information assistance</li>
+                            <li>Queue management system</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Communication Center</h4>
+                        <ul class="module-list">
+                            <li>Call logging and tracking</li>
+                            <li>Mail and courier management</li>
+                            <li>Internal communication coordination</li>
+                            <li>Complaint handling system</li>
+                            <li>Feedback collection</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Administrative Support</h4>
+                        <ul class="module-list">
+                            <li>Document management</li>
+                            <li>Meeting room booking</li>
+                            <li>Visitor pass generation</li>
+                            <li>Lost and found management</li>
+                            <li>General inquiry handling</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section id="data-analytics" class="section">
+                <h2>Data Analytics and Business Intelligence</h2>
+                <p>Advanced analytics platform for deriving actionable insights from hospital data.</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Clinical Analytics</h4>
+                        <ul class="module-list">
+                            <li>Patient outcome analysis with predictive modeling</li>
+                            <li>Disease pattern recognition and trend analysis</li>
+                            <li>Treatment effectiveness monitoring</li>
+                            <li>Clinical pathway optimization</li>
+                            <li>Risk stratification and early warning systems</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Operational Analytics</h4>
+                        <ul class="module-list">
+                            <li>Resource utilization optimization</li>
+                            <li>Wait time analysis and reduction</li>
+                            <li>Capacity planning and forecasting</li>
+                            <li>Staff productivity metrics</li>
+                            <li>Equipment usage optimization</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Financial Analytics</h4>
+                        <ul class="module-list">
+                            <li>Revenue cycle optimization</li>
+                            <li>Cost center analysis</li>
+                            <li>Profitability analysis by service line</li>
+                            <li>Insurance claims analytics</li>
+                            <li>Budget variance analysis</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h4>Real-time Analytics Features</h4>
+                    <ul class="module-list">
+                        <li>Interactive dashboards with drill-down capabilities</li>
+                        <li>Customizable KPI tracking and alerts</li>
+                        <li>Machine learning-based predictions</li>
+                        <li>Data visualization with multiple chart types</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="upcoming-features" class="section">
+                <h2>Advanced Analytics Features Under Development</h2>
+                <p>Cutting-edge analytics capabilities currently being developed to enhance hospital operations and patient care. Implementation timeline: 2-3 weeks</p>
+
+                <div class="info-box">
+                    <h4>Implementation Timeline Overview</h4>
+                    <ul class="module-list">
+                        <li><strong>Week 1:</strong> Data integration setup and basic dashboard framework</li>
+                        <li><strong>Week 2:</strong> Core analytics features and predictive models deployment</li>
+                        <li><strong>Week 3:</strong> Fine-tuning, testing, and performance optimization</li>
+                    </ul>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Phase 1: Week 1</h4>
+                        <ul class="module-list">
+                            <li>Data pipeline setup and integration</li>
+                            <li>Basic dashboard framework implementation</li>
+                            <li>Initial data processing engine setup</li>
+                            <li>Database optimization for analytics</li>
+                            <li>Basic reporting templates</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Phase 2: Week 2</h4>
+                        <ul class="module-list">
+                            <li>Predictive analytics model deployment</li>
+                            <li>Real-time monitoring system setup</li>
+                            <li>Performance metrics implementation</li>
+                            <li>Statistical analysis tools integration</li>
+                            <li>Advanced visualization components</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Phase 3: Week 3</h4>
+                        <ul class="module-list">
+                            <li>System optimization and fine-tuning</li>
+                            <li>User acceptance testing</li>
+                            <li>Performance benchmarking</li>
+                            <li>Documentation completion</li>
+                            <li>Staff training preparation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Feature Deployment Schedule</h3>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <h4>Predictive Analytics</h4>
+                        <ul class="module-list">
+                            <li>Patient readmission risk prediction (Week 2)</li>
+                            <li>Resource utilization forecasting (Week 2)</li>
+                            <li>Equipment maintenance prediction (Week 2-3)</li>
+                            <li>Staffing needs forecasting (Week 2)</li>
+                            <li>Revenue trend analysis (Week 3)</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Real-time Analytics Dashboard</h4>
+                        <ul class="module-list">
+                            <li>Live patient flow monitoring (Week 1)</li>
+                            <li>Dynamic resource tracking (Week 1-2)</li>
+                            <li>Department performance metrics (Week 2)</li>
+                            <li>Automated alert system (Week 2-3)</li>
+                            <li>Interactive visualizations (Week 2-3)</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card">
+                        <h4>Data Integration Features</h4>
+                        <ul class="module-list">
+                            <li>Automated data collection (Week 1)</li>
+                            <li>Data preprocessing pipelines (Week 1)</li>
+                            <li>Cross-department correlation (Week 2)</li>
+                            <li>Historical data analysis (Week 2)</li>
+                            <li>Custom metrics setup (Week 3)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <h4>Key Deliverables Timeline</h4>
+                    <ul class="module-list">
+                        <li><strong>End of Week 1:</strong> Basic dashboard functionality and data pipeline setup</li>
+                        <li><strong>End of Week 2:</strong> Core analytics features operational</li>
+                        <li><strong>Mid Week 3:</strong> All features deployed and initial testing complete</li>
+                        <li><strong>End of Week 3:</strong> System optimized and ready for full deployment</li>
+                    </ul>
+                </div>
+
+                <div class="info-box">
+                    <h4>Technical Implementation Notes</h4>
+                    <ul class="module-list">
+                        <li>Daily progress tracking and milestone verification</li>
+                        <li>Continuous integration and deployment pipeline</li>
+                        <li>Regular performance testing and optimization</li>
+                        <li>Documentation updated throughout development</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Search functionality
+            const searchInput = document.getElementById('searchInput');
+            const sections = document.querySelectorAll('.section');
+            
+            if (searchInput) {
+                searchInput.addEventListener('input', function(e) {
+                    const searchTerm = e.target.value.toLowerCase();
+                    sections.forEach(section => {
+                        if (section) {
+                            const text = section.textContent.toLowerCase();
+                            section.style.display = text.includes(searchTerm) ? 'block' : 'none';
+                        }
+                    });
+                });
+            }
+
+            // Fix for navigation links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 20,
+                            behavior: 'smooth'
+                        });
+
+                        // Update active state
+                        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                });
+            });
+
+            // Mobile menu toggle
+            const menuToggle = document.createElement('button');
+            menuToggle.className = 'menu-toggle';
+            menuToggle.innerHTML = '☰';
+            document.body.appendChild(menuToggle);
+
+            menuToggle.addEventListener('click', () => {
+                const sidebar = document.querySelector('.sidebar');
+                sidebar.classList.toggle('show');
+            });
+        });
+    </script>
+
+    <style>
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: var(--box-shadow);
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+        }
+    </style>
+</body>
+</html>
